@@ -1,0 +1,51 @@
+{
+    "name": "francescomalatesta/laravel-circuit-breaker",
+    "type": "library",
+    "description": "A circuit breaker pattern implementation for the Laravel framework",
+    "keywords": [
+        "laravel",
+        "circuit breaker",
+        "package"
+    ],
+    "homepage": "https://github.com/francescomalatesta/laravel-circuit-breaker",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Francesco Malatesta",
+            "email": "hellofrancesco@gmail.com",
+            "homepage": "https://github.com/francescomalatesta",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~7.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.6",
+        "phpunit/phpunit": "~7.0",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "FrancescoMalatesta\\LaravelCircuitBreaker\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FrancescoMalatesta\\LaravelCircuitBreaker\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
