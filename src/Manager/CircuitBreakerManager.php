@@ -5,6 +5,7 @@ namespace FrancescoMalatesta\LaravelCircuitBreaker\Manager;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceRestored;
+use FrancescoMalatesta\LaravelCircuitBreaker\Service\ServiceOptionsResolver;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use FrancescoMalatesta\LaravelCircuitBreaker\Store\CircuitBreakerStoreInterface;
 use Illuminate\Config\Repository as Config;
@@ -17,21 +18,21 @@ class CircuitBreakerManager
     /** @var EventDispatcher */
     private $dispatcher;
 
-    /** @var Config */
-    private $config;
+    /** @var ServiceOptionsResolver */
+    private $serviceOptionsResolver;
 
     /**
      * CircuitBreakerManager constructor.
      *
      * @param CircuitBreakerStoreInterface $store
      * @param EventDispatcher $dispatcher
-     * @param Config $config
+     * @param ServiceOptionsResolver $serviceOptionsResolver
      */
-    public function __construct(CircuitBreakerStoreInterface $store, EventDispatcher $dispatcher, Config $config)
+    public function __construct(CircuitBreakerStoreInterface $store, EventDispatcher $dispatcher, ServiceOptionsResolver $serviceOptionsResolver)
     {
         $this->store = $store;
         $this->dispatcher = $dispatcher;
-        $this->config = $config;
+        $this->serviceOptionsResolver = $serviceOptionsResolver;
     }
 
     public function isAvailable(string $identifier) : bool
@@ -43,11 +44,13 @@ class CircuitBreakerManager
     {
         $wasAvailable = $this->isAvailable($identifier);
 
+        $options = $this->serviceOptionsResolver->getOptionsFor($identifier);
+
         $this->store->reportFailure(
             $identifier,
-            $this->config->get('circuit_breaker.defaults.attempts_threshold'),
-            $this->config->get('circuit_breaker.defaults.attempts_ttl'),
-            $this->config->get('circuit_breaker.defaults.failure_ttl')
+            $options->getAttemptsThreshold(),
+            $options->getAttemptsTtl(),
+            $options->getFailureTtl()
         );
 
         $this->dispatcher->dispatch(new AttemptFailed($identifier));

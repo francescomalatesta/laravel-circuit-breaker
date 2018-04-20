@@ -2,7 +2,8 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Tests\Manager;
 
-use Illuminate\Config\Repository as Config;
+use FrancescoMalatesta\LaravelCircuitBreaker\Service\ServiceOptions;
+use FrancescoMalatesta\LaravelCircuitBreaker\Service\ServiceOptionsResolver;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceRestored;
@@ -20,8 +21,8 @@ class CircuitBreakerManagerTest extends TestCase
     /** @var Dispatcher | MockObject */
     private $dispatcherMock;
 
-    /** @var Config | MockObject */
-    private $configMock;
+    /** @var ServiceOptionsResolver | MockObject */
+    private $serviceOptionsResolver;
 
     /** @var CircuitBreakerManager */
     private $manager;
@@ -38,19 +39,16 @@ class CircuitBreakerManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->configMock = $this->getMockBuilder(Config::class)
+        $this->serviceOptionsResolver = $this->getMockBuilder(ServiceOptionsResolver::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->configMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap([
-                ['circuit_breaker.defaults.attempts_threshold', null, 3],
-                ['circuit_breaker.defaults.attempts_ttl', null, 1000],
-                ['circuit_breaker.defaults.failure_ttl', null, 5000],
-            ]));
+        $this->serviceOptionsResolver->expects($this->any())
+            ->method('getOptionsFor')
+            ->with('service')
+            ->willReturn(ServiceOptions::createFromOptions(3, 1000, 5000));
 
-        $this->manager = new CircuitBreakerManager($this->storeMock, $this->dispatcherMock, $this->configMock);
+        $this->manager = new CircuitBreakerManager($this->storeMock, $this->dispatcherMock, $this->serviceOptionsResolver);
     }
 
     public function testItShouldGetServiceAvailability()
