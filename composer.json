@@ -44,7 +44,10 @@
         "laravel": {
             "providers": [
                 "FrancescoMalatesta\\LaravelCircuitBreaker\\Provider\\CircuitBreakerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "CircuitBreaker": "FrancescoMalatesta\\LaravelCircuitBreaker\\Facade\\CircuitBreaker"
+            }
         }
     },
     "config": {
