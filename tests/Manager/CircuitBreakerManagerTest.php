@@ -2,7 +2,7 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Tests\Manager;
 
-
+use Illuminate\Config\Repository as Config;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceRestored;
@@ -20,6 +20,9 @@ class CircuitBreakerManagerTest extends TestCase
     /** @var Dispatcher | MockObject */
     private $dispatcherMock;
 
+    /** @var Config | MockObject */
+    private $configMock;
+
     /** @var CircuitBreakerManager */
     private $manager;
 
@@ -35,7 +38,19 @@ class CircuitBreakerManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->manager = new CircuitBreakerManager($this->storeMock, $this->dispatcherMock);
+        $this->configMock = $this->getMockBuilder(Config::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->configMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap([
+                ['circuit_breaker.defaults.attempts_threshold', null, 3],
+                ['circuit_breaker.defaults.attempts_ttl', null, 1000],
+                ['circuit_breaker.defaults.failure_ttl', null, 5000],
+            ]));
+
+        $this->manager = new CircuitBreakerManager($this->storeMock, $this->dispatcherMock, $this->configMock);
     }
 
     public function testItShouldGetServiceAvailability()
@@ -60,6 +75,10 @@ class CircuitBreakerManagerTest extends TestCase
             ->method('isAvailable')
             ->with('service')
             ->willReturn(false);
+
+        $this->storeMock->expects($this->once())
+            ->method('reportFailure')
+            ->with('service', 3, 1000, 5000);
 
         $this->dispatcherMock->expects($this->once())
             ->method('dispatch')
@@ -91,6 +110,10 @@ class CircuitBreakerManagerTest extends TestCase
             ->method('isAvailable')
             ->with('service')
             ->willReturnOnConsecutiveCalls(true, false);
+
+        $this->storeMock->expects($this->once())
+            ->method('reportFailure')
+            ->with('service', 3, 1000, 5000);
 
         $this->dispatcherMock->expects($this->at(0))
             ->method('dispatch')

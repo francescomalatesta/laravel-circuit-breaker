@@ -61,7 +61,7 @@ class CacheCircuitBreakerStoreTest extends TestCase
         $this->cacheMock->expects($this->never())
             ->method('decrement');
 
-        $this->store->reportFailure('service');
+        $this->store->reportFailure('service', 3, 500, 5000);
     }
 
     public function testItShouldDecrementAttemptsCountdown()
@@ -79,7 +79,7 @@ class CacheCircuitBreakerStoreTest extends TestCase
         $this->cacheMock->expects($this->never())
             ->method('set');
 
-        $this->store->reportFailure('service');
+        $this->store->reportFailure('service', 3, 500, 5000);
     }
 
     public function testItShouldMarkServiceAsUnavailableAtZeroRemainingAttempts()
@@ -98,6 +98,6 @@ class CacheCircuitBreakerStoreTest extends TestCase
             ->method('set')
             ->with('circuit_breaker_service_failed', 1, 5000);
 
-        $this->store->reportFailure('service');
+        $this->store->reportFailure('service', 3, 500, 5000);
     }
 }

@@ -8,10 +8,6 @@ class CacheCircuitBreakerStore implements CircuitBreakerStoreInterface
 {
     const KEY_BASE = 'circuit_breaker_';
 
-    const ATTEMPTS_THRESHOLD = 3;
-    const ATTEMPTS_TTL = 500;
-    const FAILURE_TTL = 5000;
-
     /** @var Cache */
     private $cache;
 
@@ -25,18 +21,18 @@ class CacheCircuitBreakerStore implements CircuitBreakerStoreInterface
         return !($this->cache->has(self::KEY_BASE . $identifier . '_failed'));
     }
 
-    public function reportFailure(string $identifier): void
+    public function reportFailure(string $identifier, int $attemptsThreshold, int $attemptsTtl, int $failureTtl): void
     {
         $key = self::KEY_BASE . $identifier . '_remaining_attempts';
 
         if(!$this->cache->has($key)) {
-            $this->cache->set($key, self::ATTEMPTS_THRESHOLD, self::ATTEMPTS_TTL);
+            $this->cache->set($key, $attemptsThreshold, $attemptsTtl);
             return;
         }
 
         $remainingAttempts = $this->cache->decrement($key);
         if($remainingAttempts === 0) {
-            $this->cache->set(self::KEY_BASE . $identifier . '_failed', true, self::FAILURE_TTL);
+            $this->cache->set(self::KEY_BASE . $identifier . '_failed', true, $failureTtl);
         }
     }
 
