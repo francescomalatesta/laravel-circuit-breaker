@@ -29,12 +29,12 @@ class ServiceOptionsResolver
         $serviceOptionsMap = $this->config->get('circuit_breaker.services');
 
         if (array_key_exists($identifier, $serviceOptionsMap)) {
-            $serviceOptions = $serviceOptionsMap[$identifier];
+            $serviceOptions = array_merge($defaultOptions, $serviceOptionsMap[$identifier]);
 
             return ServiceOptions::createFromOptions(
-                isset($serviceOptions['attempts_threshold']) ? $serviceOptions['attempts_threshold'] : $defaultOptions['attempts_threshold'],
-                isset($serviceOptions['attempts_ttl']) ? $serviceOptions['attempts_ttl'] : $defaultOptions['attempts_ttl'],
-                isset($serviceOptions['failure_ttl']) ? $serviceOptions['failure_ttl'] : $defaultOptions['failure_ttl']
+                $serviceOptions['attempts_threshold'],
+                $serviceOptions['attempts_ttl'],
+                $serviceOptions['failure_ttl']
             );
         }
 
