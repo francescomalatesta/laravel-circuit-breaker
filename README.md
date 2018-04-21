@@ -21,7 +21,7 @@ You can use Composer to install the package for your project.
 $ composer require francescomalatesta/laravel-circuit-breaker
 ```
 
-Don't worry about service providers and façades: Laravel can autodiscover the package without doing nothing!
+Don't worry about service providers and façades: Laravel can auto discover the package without doing nothing!
 
 Just remember to **publish the config file** with
 
@@ -63,8 +63,8 @@ You have three values under the `default` item:
 return [
     'defaults' => [
         'attempts_threshold' => 3,
-        'attempts_ttl' => 5000,
-        'failure_ttl' => 30000
+        'attempts_ttl' => 1,
+        'failure_ttl' => 5
     ],
     
     // ...
@@ -72,10 +72,10 @@ return [
 ```
 
 - **attempts_threshold**: use it to specify how many attempts you have to make before declaring a service "failed" - default: 3;
-- **attempts_ttl**: use to specify the time (in milliseconds) window in which the attempts are made before declaring a service "failed" - default: 5000;
-- **failure_ttl**: once a service is marked as "failed", it will remain in this status for this number of milliseconds - default: 30000;
+- **attempts_ttl**: use to specify the time (in minutes) window in which the attempts are made before declaring a service "failed" - default: 1;
+- **failure_ttl**: once a service is marked as "failed", it will remain in this status for this number of minutes - default: 5;
 
-For a better understanding: by default, 3 failed attempts in 5 seconds will result in a "failed" service for 30 seconds.
+For a better understanding: by default, 3 failed attempts in 1 minute will result in a "failed" service for 5 minutes.
 
 ### Service Map
 
@@ -89,21 +89,21 @@ As you can see in the `config/circuit_breaker.php` config file, you also have a 
 return [
     'defaults' => [
         'attempts_threshold' => 3,
-        'attempts_ttl' => 5000,
-        'failure_ttl' => 30000
+        'attempts_ttl' => 1,
+        'failure_ttl' => 5
     ],
     
     'services' => [
         'my_special_service_identifier' => [
             'attempts_threshold' => 2,
-            'attempts_ttl' => 6000,
-            'failure_ttl' => 60000
+            'attempts_ttl' => 1,
+            'failure_ttl' => 10
         ]
     ]
 ];
 ```
 
-Then, when you will call `CircuitBreaker::reportFailure('my_special_service_identifier')`, the circuit breaker will recognize the "special" service and use specific configuration settings, ttls and attempts count.
+Then, when you will call `CircuitBreaker::reportFailure('my_special_service_identifier')`, the circuit breaker will recognize the "special" service and use specific configuration settings, TTLs and attempts count.
 
 **Protip:** you can also *overwrite* a single settings for a service in the `service` array. The others are going to be merged with the defaults.
 
@@ -192,7 +192,7 @@ Let's assume we are processing 100 orders (on different processes) in 10 seconds
 * for the first order we ask the `PaymentsGateway` to handle that, but something goes wrong;
 * we queue the payment on the `DelayedPaymentsGateway` and we report a failure to the `CircuitBreaker`;
 * the same goes for the 2nd and 3rd orders;
-* after the third order is processed, the `CircuitBreaker` decides that after 3 attempts (and in less than 5 seconds) the `PaymentsGateway` can be declared "failed" and we can use directly our `DelayedPaymentsGateway` fallback for a while (30 seconds);
+* after the third order is processed, the `CircuitBreaker` decides that after 3 attempts (and in less than 1 minute) the `PaymentsGateway` can be declared "failed" and we can use directly our `DelayedPaymentsGateway` fallback for a while (5 minutes);
 * the remaining 97 orders are queued and processed successfully, without wasting time (97 * 5 = 485 processing seconds) on a service we are quite sure that will not work;
 
 Cool, huh? :)
@@ -209,7 +209,8 @@ command.
 
 ## Coming Soon
 
-* exponential backoff TTLs;
+* exponential backoff for failure TTLs;
+* set TTLs less than 1 minute;
 
 ## Contributing
 
