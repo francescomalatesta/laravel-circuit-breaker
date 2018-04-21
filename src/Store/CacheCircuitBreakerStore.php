@@ -25,13 +25,13 @@ class CacheCircuitBreakerStore implements CircuitBreakerStoreInterface
     {
         $key = self::KEY_BASE . $identifier . '_remaining_attempts';
 
-        if(!$this->cache->has($key)) {
+        if (!$this->cache->has($key)) {
             $this->cache->set($key, $attemptsThreshold, $attemptsTtl);
             return;
         }
 
         $remainingAttempts = $this->cache->decrement($key);
-        if($remainingAttempts === 0) {
+        if ($remainingAttempts === 0) {
             $this->cache->set(self::KEY_BASE . $identifier . '_failed', true, $failureTtl);
         }
     }

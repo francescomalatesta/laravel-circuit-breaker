@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Facade;
 
-
 use FrancescoMalatesta\LaravelCircuitBreaker\Manager\CircuitBreakerManager;
 use Illuminate\Support\Facades\Facade;
 

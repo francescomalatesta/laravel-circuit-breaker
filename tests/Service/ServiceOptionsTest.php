@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Tests\Service;
 
-
 use FrancescoMalatesta\LaravelCircuitBreaker\Service\ServiceOptions;
 use PHPUnit\Framework\TestCase;
 

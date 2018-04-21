@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Provider;
 
-
 use FrancescoMalatesta\LaravelCircuitBreaker\Store\CacheCircuitBreakerStore;
 use FrancescoMalatesta\LaravelCircuitBreaker\Store\CircuitBreakerStoreInterface;
 use Illuminate\Support\ServiceProvider;

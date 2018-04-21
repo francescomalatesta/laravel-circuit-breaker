@@ -28,8 +28,11 @@ class CircuitBreakerManager
      * @param EventDispatcher $dispatcher
      * @param ServiceOptionsResolver $serviceOptionsResolver
      */
-    public function __construct(CircuitBreakerStoreInterface $store, EventDispatcher $dispatcher, ServiceOptionsResolver $serviceOptionsResolver)
-    {
+    public function __construct(
+        CircuitBreakerStoreInterface $store,
+        EventDispatcher $dispatcher,
+        ServiceOptionsResolver $serviceOptionsResolver
+    ) {
         $this->store = $store;
         $this->dispatcher = $dispatcher;
         $this->serviceOptionsResolver = $serviceOptionsResolver;
@@ -55,7 +58,7 @@ class CircuitBreakerManager
 
         $this->dispatcher->dispatch(new AttemptFailed($identifier));
 
-        if($wasAvailable && !$this->isAvailable($identifier)) {
+        if ($wasAvailable && !$this->isAvailable($identifier)) {
             $this->dispatcher->dispatch(new ServiceFailed($identifier));
         }
     }

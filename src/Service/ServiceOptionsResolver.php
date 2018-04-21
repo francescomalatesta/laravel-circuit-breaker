@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Service;
 
-
 use Illuminate\Config\Repository as Config;
 
 class ServiceOptionsResolver
@@ -29,11 +28,13 @@ class ServiceOptionsResolver
         $defaultOptions = $this->config->get('circuit_breaker.defaults');
         $serviceOptionsMap = $this->config->get('circuit_breaker.services');
 
-        if(array_key_exists($identifier, $serviceOptionsMap)) {
+        if (array_key_exists($identifier, $serviceOptionsMap)) {
+            $serviceOptions = $serviceOptionsMap[$identifier];
+
             return ServiceOptions::createFromOptions(
-                isset($serviceOptionsMap[$identifier]['attempts_threshold']) ? $serviceOptionsMap[$identifier]['attempts_threshold'] : $defaultOptions['attempts_threshold'],
-                isset($serviceOptionsMap[$identifier]['attempts_ttl']) ? $serviceOptionsMap[$identifier]['attempts_ttl'] : $defaultOptions['attempts_ttl'],
-                isset($serviceOptionsMap[$identifier]['failure_ttl']) ? $serviceOptionsMap[$identifier]['failure_ttl'] : $defaultOptions['failure_ttl']
+                isset($serviceOptions['attempts_threshold']) ? $serviceOptions['attempts_threshold'] : $defaultOptions['attempts_threshold'],
+                isset($serviceOptions['attempts_ttl']) ? $serviceOptions['attempts_ttl'] : $defaultOptions['attempts_ttl'],
+                isset($serviceOptions['failure_ttl']) ? $serviceOptions['failure_ttl'] : $defaultOptions['failure_ttl']
             );
         }
 

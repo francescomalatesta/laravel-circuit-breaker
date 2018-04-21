@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Store;
 
-
 interface CircuitBreakerStoreInterface
 {
     public function isAvailable(string $identifier) : bool;

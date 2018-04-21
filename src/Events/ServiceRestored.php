@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Events;
 
-
 class ServiceRestored
 {
     /** @var string */
