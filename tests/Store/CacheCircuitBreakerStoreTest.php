@@ -2,7 +2,6 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Tests\Store;
 
-
 use FrancescoMalatesta\LaravelCircuitBreaker\Store\CacheCircuitBreakerStore;
 use Illuminate\Cache\Repository;
 use PHPUnit\Framework\MockObject\MockObject;

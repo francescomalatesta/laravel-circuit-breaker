@@ -80,7 +80,7 @@ class CircuitBreakerManagerTest extends TestCase
 
         $this->dispatcherMock->expects($this->once())
             ->method('dispatch')
-            ->with($this->callback(function($event){
+            ->with($this->callback(function ($event) {
                 return $event instanceof AttemptFailed;
             }));
 
@@ -95,7 +95,7 @@ class CircuitBreakerManagerTest extends TestCase
 
         $this->dispatcherMock->expects($this->once())
             ->method('dispatch')
-            ->with($this->callback(function($event){
+            ->with($this->callback(function ($event) {
                 return $event instanceof ServiceRestored;
             }));
 
@@ -115,13 +115,13 @@ class CircuitBreakerManagerTest extends TestCase
 
         $this->dispatcherMock->expects($this->at(0))
             ->method('dispatch')
-            ->with($this->callback(function($event){
+            ->with($this->callback(function ($event) {
                 return $event instanceof AttemptFailed;
             }));
 
         $this->dispatcherMock->expects($this->at(1))
             ->method('dispatch')
-            ->with($this->callback(function($event){
+            ->with($this->callback(function ($event) {
                 return $event instanceof ServiceFailed;
             }));
 
