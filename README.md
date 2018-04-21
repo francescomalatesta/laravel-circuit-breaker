@@ -6,6 +6,7 @@ An implementation of the Circuit Breaker pattern for Laravel Framework 5.6.
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
+[![StyleCI](https://styleci.io/repos/130022855/shield?branch=master)](https://styleci.io/repos/130022855)
 
 If you need an easy to use implementation of the [circuit breaker pattern](https://martinfowler.com/bliki/CircuitBreaker.html) for your Laravel application, you're in the right place.
 
