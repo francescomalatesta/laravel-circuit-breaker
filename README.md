@@ -23,6 +23,12 @@ $ composer require francescomalatesta/laravel-circuit-breaker
 
 Don't worry about service providers and façades: Laravel can autodiscover the package without doing nothing!
 
+Just remember to **publish the config file** with
+
+```php
+php artisan vendor:publish
+```
+
 ## Usage
 
 You will always use a single class (`CircuitBreaker` façade or `CircuitBreakerManager` class if you want to inject it) to work with this package.
@@ -33,6 +39,8 @@ Here's the methods reference:
 
 Returns `true` if the `$identifier` service is currently available. Returns `false` otherwise.
 
+**Note:** you can use whatever you want as identifier. I like to use the `MyClass::class` name when possible.
+
 ### reportFailure(string $identifier) : void
 
 Reports a failed attempt for the `$identifier` service. Take a look at the Configuration section below to know how attempts and failure times are managed.
@@ -42,6 +50,8 @@ Reports a failed attempt for the `$identifier` service. Take a look at the Confi
 Reports a successful attempt for the `$identifier` service. You can use it to mark a service as available and remove the "failed" status from it.
 
 ## Configuration
+
+### Defaults
 
 By editing the `config/circuit_breaker.php` config file contents you will able to tweak the circuit breaker in a way that is more suitable for your needs.
 
@@ -59,7 +69,6 @@ return [
     
     // ...
 ];
-
 ```
 
 - **attempts_threshold**: use it to specify how many attempts you have to make before declaring a service "failed" - default: 3;
@@ -67,6 +76,36 @@ return [
 - **failure_ttl**: once a service is marked as "failed", it will remain in this status for this number of milliseconds - default: 30000;
 
 For a better understanding: by default, 3 failed attempts in 5 seconds will result in a "failed" service for 30 seconds.
+
+### Service Map
+
+Tweaking the config file is cool, but what if I need to have specific ttl and attempts count for a specific service? No problem: the `services` option is here to help.
+
+As you can see in the `config/circuit_breaker.php` config file, you also have a `services` item. You can specify settings for a single service here. Here's an example:
+
+```php
+<?php
+
+return [
+    'defaults' => [
+        'attempts_threshold' => 3,
+        'attempts_ttl' => 5000,
+        'failure_ttl' => 30000
+    ],
+    
+    'services' => [
+        'my_special_service_identifier' => [
+            'attempts_threshold' => 2,
+            'attempts_ttl' => 6000,
+            'failure_ttl' => 60000
+        ]
+    ]
+];
+```
+
+Then, when you will call `CircuitBreaker::reportFailure('my_special_service_identifier')`, the circuit breaker will recognize the "special" service and use specific configuration settings, ttls and attempts count.
+
+**Protip:** you can also *overwrite* a single settings for a service in the `service` array. The others are going to be merged with the defaults.
 
 ## Usage Example
 
@@ -167,6 +206,10 @@ $ vendor/bin/phpunit
 ```
 
 command.
+
+## Coming Soon
+
+* exponential backoff TTLs;
 
 ## Contributing
 
