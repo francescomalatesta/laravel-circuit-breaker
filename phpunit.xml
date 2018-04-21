@@ -16,7 +16,12 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>./src/Events</directory>
+                <directory>./src/Provider</directory>
+                <directory>./src/Facade</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
