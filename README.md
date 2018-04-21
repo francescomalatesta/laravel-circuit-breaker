@@ -5,9 +5,7 @@ An implementation of the Circuit Breaker pattern for Laravel Framework 5.6.
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
-[![Total Downloads][ico-downloads]][link-downloads]
 
 If you need an easy to use implementation of the []circuit breaker pattern](https://martinfowler.com/bliki/CircuitBreaker.html) for your Laravel application, you're in the right place.
 
@@ -233,9 +231,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/francescomalatesta/laravel-circuit-breaker.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/francescomalatesta/laravel-circuit-breaker/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/francescomalatesta/laravel-circuit-breaker.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/francescomalatesta/laravel-circuit-breaker.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/francescomalatesta/laravel-circuit-breaker.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/francescomalatesta/laravel-circuit-breaker
 [link-travis]: https://travis-ci.org/francescomalatesta/laravel-circuit-breaker
