@@ -211,6 +211,7 @@ command.
 
 * exponential backoff for failure TTLs;
 * set TTLs less than 1 minute;
+* make underlying store implementation customizable;
 
 ## Contributing
 
