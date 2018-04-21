@@ -7,7 +7,7 @@ An implementation of the Circuit Breaker pattern for Laravel Framework 5.6.
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-If you need an easy to use implementation of the []circuit breaker pattern](https://martinfowler.com/bliki/CircuitBreaker.html) for your Laravel application, you're in the right place.
+If you need an easy to use implementation of the [circuit breaker pattern](https://martinfowler.com/bliki/CircuitBreaker.html) for your Laravel application, you're in the right place.
 
 **Note:** this package is compatible with Laravel 5.6. Other/previous versions are not tested yet.
 
@@ -197,13 +197,11 @@ Cool, huh? :)
 
 ## Testing
 
-You can easily execute tests with the
+You can easily execute tests with
 
 ``` bash
 $ vendor/bin/phpunit
 ```
-
-command.
 
 ## Coming Soon
 
