@@ -8,7 +8,7 @@ class AttemptSucceeded
     private $identifier;
 
     /**
-     * AttemptFailed constructor.
+     * AttemptSucceeded constructor.
      * @param string $identifier
      */
     public function __construct(string $identifier)
