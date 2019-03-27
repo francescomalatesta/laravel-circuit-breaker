@@ -3,7 +3,7 @@
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Manager;
 
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptFailed;
-use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptSucceded;
+use FrancescoMalatesta\LaravelCircuitBreaker\Events\AttemptSucceeded;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceFailed;
 use FrancescoMalatesta\LaravelCircuitBreaker\Events\ServiceRestored;
 use FrancescoMalatesta\LaravelCircuitBreaker\Service\ServiceOptionsResolver;
@@ -70,7 +70,7 @@ class CircuitBreakerManager
 
         $this->store->reportSuccess($identifier);
 
-        $this->dispatcher->dispatch(new AttemptSucceded($identifier));
+        $this->dispatcher->dispatch(new AttemptSucceeded($identifier));
 
         if (!$wasAvailable && $this->isAvailable($identifier)) {
             $this->dispatcher->dispatch(new ServiceRestored($identifier));

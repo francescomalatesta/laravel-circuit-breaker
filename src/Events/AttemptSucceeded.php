@@ -2,7 +2,7 @@
 
 namespace FrancescoMalatesta\LaravelCircuitBreaker\Events;
 
-class AttemptSucceded
+class AttemptSucceeded
 {
     /** @var string */
     private $identifier;
