@@ -1,6 +1,6 @@
 # Laravel Circuit Breaker
 
-An implementation of the Circuit Breaker pattern for Laravel Framework 5.6.
+An implementation of the Circuit Breaker pattern for Laravel Framework 5.8.
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -10,7 +10,7 @@ An implementation of the Circuit Breaker pattern for Laravel Framework 5.6.
 
 If you need an easy to use implementation of the [circuit breaker pattern](https://martinfowler.com/bliki/CircuitBreaker.html) for your Laravel application, you're in the right place.
 
-**Note:** this package is compatible with Laravel 5.6. Other/previous versions are not tested yet.
+**Note:** this package is compatible with Laravel 5.8. Other/previous versions are not tested yet.
 
 ## Install
 

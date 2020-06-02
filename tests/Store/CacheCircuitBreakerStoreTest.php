@@ -15,7 +15,7 @@ class CacheCircuitBreakerStoreTest extends TestCase
     /** @var CacheCircuitBreakerStore */
     private $store;
 
-    public function setUp()
+    public function setUp():void
     {
         parent::setUp();
 
