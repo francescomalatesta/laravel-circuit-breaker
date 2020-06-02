@@ -27,7 +27,7 @@ class CircuitBreakerManagerTest extends TestCase
     /** @var CircuitBreakerManager */
     private $manager;
 
-    public function setUp()
+    public function setUp():void
     {
         parent::setUp();
 

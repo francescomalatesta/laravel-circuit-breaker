@@ -15,7 +15,7 @@ class ServiceOptionsResolverTest extends TestCase
     /** @var ServiceOptionsResolver */
     private $resolver;
 
-    public function setUp()
+    public function setUp():void
     {
         $this->configMock = $this->getMockBuilder(Config::class)
             ->disableOriginalConstructor()
